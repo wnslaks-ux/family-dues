@@ -8,6 +8,6 @@ RUN mvn -q -B -DskipTests package && cp target/*.war /app.war
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=build /app.war /app/app.war
-ENV JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF-8" PORT=8080
+ENV JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF-8" SPRING_PROFILES_ACTIVE=cloud PORT=8080
 EXPOSE 8080
 ENTRYPOINT ["sh","-c","exec java -Dfile.encoding=UTF-8 -jar /app/app.war --server.port=${PORT:-8080}"]
