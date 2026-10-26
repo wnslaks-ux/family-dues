@@ -1,0 +1,15 @@
+<%@ page pageEncoding="UTF-8" %>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="bar"><div class="inner"><a href="/">홈</a><span>|</span><a href="/dues">이번달현황</a><span>|</span><a href="/members">멤버관리</a><span>|</span><a href="/settings">회비설정</a></div></div>
+  <div class="info">가족 회비 현황 · 입금 여부는 수동 체크 방식입니다<br>&copy; Family Dues</div>
+</footer>
+<script>
+function copyText(t, btn){
+  function done(){ if(btn){var o=btn.textContent;btn.textContent='복사됨 ✓';setTimeout(function(){btn.textContent=o;},1500);} }
+  if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(done,function(){fb();});}else fb();
+  function fb(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done();}catch(e){prompt('복사해서 사용하세요',t);}document.body.removeChild(a);}
+}
+</script>
+</body></html>

@@ -1,0 +1,8 @@
+<%@ page pageEncoding="UTF-8" %>
+<div class="cards">
+  <div class="card-stat"><div class="l">전체 멤버</div><div class="v">${fn:length(payments)}명</div></div>
+  <div class="card-stat ok"><div class="l">완납</div><div class="v">${paidCount}명</div></div>
+  <div class="card-stat warn"><div class="l">미납</div><div class="v">${fn:length(unpaid)}명</div></div>
+  <div class="card-stat"><div class="l">입금액 / 예정액</div><div class="v" style="font-size:18px"><fmt:formatNumber value="${collected}"/> / <fmt:formatNumber value="${expected}"/>원</div></div>
+</div>
+<c:if test="${settings.monthlyAmount == 0}"><div class="alert alert-warning py-2">월 회비 금액이 아직 0원입니다. 관리자 로그인 후 <a href="/settings">회비설정</a>에서 금액·계좌를 입력하세요.</div></c:if>

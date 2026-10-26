@@ -1,0 +1,43 @@
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<c:set var="curUri" value="${not empty requestScope['javax.servlet.forward.request_uri'] ? requestScope['javax.servlet.forward.request_uri'] : pageContext.request.requestURI}"/>
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>가족 회비 현황</title><link href="/css/bootstrap.min.css" rel="stylesheet"><link href="/css/app.css" rel="stylesheet"></head>
+<body>
+<header class="top-header"><div class="inner">
+  <button type="button" class="nav-toggle" aria-label="메뉴" onclick="document.body.classList.toggle('nav-open')"><span></span><span></span><span></span></button>
+  <a class="brand" href="/">가족<span>회비</span>현황<small>Family Dues · 카카오뱅크 모임통장 회비 체크</small></a>
+  <nav class="top-nav"><a href="/">홈</a><a href="/dues">이번달현황</a>
+    <sec:authorize access="hasRole('ADMIN')"><a href="/members">멤버관리</a><a href="/settings">회비설정</a>
+      <form method="post" action="/logout" class="d-inline"><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"><button type="submit" class="link-btn">로그아웃</button></form>
+    </sec:authorize>
+    <sec:authorize access="!isAuthenticated()"><a href="/login" class="admin-link">로그인</a></sec:authorize></nav>
+</div></header>
+<div class="sub-nav"><div class="inner">
+  <a href="/" class="${curUri == '/' ? 'on' : ''}">홈</a>
+  <a href="/dues" class="${fn:startsWith(curUri,'/dues') ? 'on' : ''}">이번달현황</a>
+  <sec:authorize access="hasRole('ADMIN')">
+  <a href="/members" class="${fn:startsWith(curUri,'/members') ? 'on' : ''}">멤버관리</a>
+  <a href="/settings" class="${fn:startsWith(curUri,'/settings') ? 'on' : ''}">회비설정</a>
+  </sec:authorize>
+</div></div>
+<div class="kakao-banner">💬 카카오톡 <b>자동 발송은 지원되지 않습니다.</b> 미납자 문구를 <b>복사</b>해서 카카오톡(또는 모임통장 회비요청)에 붙여넣어 보내세요. 입금 여부도 모임통장 확인 후 직접 체크합니다.</div>
+<div class="nav-backdrop" onclick="document.body.classList.remove('nav-open')"></div>
+<div class="layout">
+<aside class="sidebar">
+  <h6>회비</h6>
+  <a href="/" class="${curUri == '/' ? 'active' : ''}">홈</a>
+  <a href="/dues" class="${fn:startsWith(curUri,'/dues') ? 'active' : ''}">이번달현황</a>
+  <sec:authorize access="hasRole('ADMIN')">
+  <h6>관리자</h6>
+  <a href="/members" class="${fn:startsWith(curUri,'/members') ? 'active' : ''}">멤버관리</a>
+  <a href="/settings" class="${fn:startsWith(curUri,'/settings') ? 'active' : ''}">회비설정</a>
+  </sec:authorize>
+  <sec:authorize access="!isAuthenticated()"><h6>관리자</h6><a href="/login" class="${curUri == '/login' ? 'active' : ''}">관리자 로그인</a></sec:authorize>
+  <div class="side-info">입금 확인: 카카오뱅크 앱<br>모임통장 → 회비 입금현황</div>
+</aside>
+<main class="main">
